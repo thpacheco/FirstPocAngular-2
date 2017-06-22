@@ -1,11 +1,19 @@
-import { NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent } from './app.component';
+
+import { MasterPageComponent } from './masterPage/masterPage.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ReceitaListagem } from './receita/receita.listagem';
+import { routing } from './app.routes';
 
 @NgModule({
-    imports: [ BrowserModule],
-    declarations: [ AppComponent],
-    bootstrap: [AppComponent]
+    imports: [BrowserModule, routing],
+    declarations: [
+        MasterPageComponent,
+        DashboardComponent,
+        ReceitaListagem
+    ],
+    bootstrap: [MasterPageComponent]
 })
 
 export class AppModule {

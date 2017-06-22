@@ -10,15 +10,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
-var app_component_1 = require('./app.component');
+var masterPage_component_1 = require('./masterPage/masterPage.component');
+var dashboard_component_1 = require('./dashboard/dashboard.component');
+var receita_listagem_1 = require('./receita/receita.listagem');
+var app_routes_1 = require('./app.routes');
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule],
-            declarations: [app_component_1.AppComponent],
-            bootstrap: [app_component_1.AppComponent]
+            imports: [platform_browser_1.BrowserModule, app_routes_1.routing],
+            declarations: [
+                masterPage_component_1.MasterPageComponent,
+                dashboard_component_1.DashboardComponent,
+                receita_listagem_1.ReceitaListagem
+            ],
+            bootstrap: [masterPage_component_1.MasterPageComponent]
         }), 
         __metadata('design:paramtypes', [])
     ], AppModule);
