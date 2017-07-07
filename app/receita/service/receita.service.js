@@ -8,18 +8,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var http_1 = require('@angular/http');
 var core_1 = require('@angular/core');
-var AppComponent = (function () {
-    function AppComponent() {
+require('rxjs/add/operator/map');
+var ReceitaService = (function () {
+    function ReceitaService(http) {
+        this.url = 'http://localhost:8000/api/contas';
+        this.http = http;
+        this.headers = new http_1.Headers();
+        this.headers.append('Content-Type', 'application/json');
     }
-    AppComponent = __decorate([
-        core_1.Component({
-            selector: 'app',
-            templateUrl: './app/app.component.html'
-        }), 
-        __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ReceitaService.prototype.listar = function () {
+        return this.http.get(this.url, { headers: this.headers }).map(function (res) { return res.json(); });
+    };
+    ReceitaService = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [http_1.Http])
+    ], ReceitaService);
+    return ReceitaService;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.ReceitaService = ReceitaService;
+//# sourceMappingURL=receita.service.js.map

@@ -10,16 +10,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
+var common_1 = require('@angular/common');
+var http_1 = require('@angular/http');
+var app_routes_1 = require('./app.routes');
 var masterPage_component_1 = require('./masterPage/masterPage.component');
 var dashboard_component_1 = require('./dashboard/dashboard.component');
 var receita_listagem_1 = require('./receita/receita.listagem');
-var app_routes_1 = require('./app.routes');
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, app_routes_1.routing],
+            imports: [platform_browser_1.BrowserModule,
+                app_routes_1.routing,
+                common_1.CommonModule,
+                http_1.HttpModule
+            ],
             declarations: [
                 masterPage_component_1.MasterPageComponent,
                 dashboard_component_1.DashboardComponent,

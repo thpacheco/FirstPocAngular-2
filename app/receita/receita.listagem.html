@@ -1,1 +1,91 @@
-<h1 class="text-center">Listagem</h1>
+<!-- Page Heading -->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Receita
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-fw fa-bar-chart-o"></i> <a [routerLink]="['/ReceitaListagem']">Receita</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-file"></i> Status
+            </li>
+        </ol>
+    </div>
+</div>
+<!-- /.row -->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Receita do Mês</h3>
+            </div>
+            <div class="panel-body">
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Valor</th>
+                                    <th>Data Pagamento</th>
+                                    <th>Situação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let conta of receitaModel">
+                                    <td>{{conta.nome}}</td>
+                                    <td>{{conta.valor | currency:'BRL':true:'1.2-2'}}</td>
+                                    <td>{{conta.dataPagamento | date: 'dd/MM/yyyy'}}</td>
+                                    <td>{{!conta.status ? 'Aberto' : 'Fechada'}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th class="text-right">Total:</th>
+                                    <td class="text-left">{{totalPagar | currency:'BRL':true:'1.2-2'}}</td>
+                                    <td colspan="2"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.row -->
+
+<!-- /.row -->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Receita do Mês</h3>
+            </div>
+            <div class="panel-body">
+                <div class="panel-body">
+                    <form>
+                        <ul>
+                            <!-- Percorrer o array 'services', atribuir um manipulador click, e definir ou remover a classe css "active" se necessário -->
+                            <li *ngFor="let conta of receitaModel" (click)="toggleActive(conta)">
+
+                                <!-- Note o uso do 'current filter', que vai formatar o preço -->
+                                {{ conta.nome }} <span>{{conta.valor | currency:'BRL':true:'1.2-2'}}</span>
+                            </li>
+                        </ul>
+
+                        <div class="total">
+                            <!-- Calcule o preço total de todas as escolhas de serviços. Formate isso como moeda -->
+                            Total: <span>{{totalPagar | currency:'BRL':true:'1.2-2'}}</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

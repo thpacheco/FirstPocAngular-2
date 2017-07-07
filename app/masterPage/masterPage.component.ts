@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-    selector:'masterPage',
-    templateUrl:'./app/masterPage/masterPage.component.html'
+    selector: 'masterPage',
+    templateUrl: './app/masterPage/masterPage.component.html'
 })
-export class MasterPageComponent{
+export class MasterPageComponent {
 
 }
