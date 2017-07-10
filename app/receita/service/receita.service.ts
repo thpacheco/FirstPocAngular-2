@@ -19,7 +19,8 @@ export class ReceitaService {
     }
 
     listar(): Observable<Receita[]> {
-        return this.http.get(this.url, { headers: this.headers }).map((res:Response) => res.json());
+        return this.http.get(this.url, { headers: this.headers })
+            .map((res: Response) => res.json());
     }
 
 }

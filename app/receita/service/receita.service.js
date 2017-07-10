@@ -19,7 +19,8 @@ var ReceitaService = (function () {
         this.headers.append('Content-Type', 'application/json');
     }
     ReceitaService.prototype.listar = function () {
-        return this.http.get(this.url, { headers: this.headers }).map(function (res) { return res.json(); });
+        return this.http.get(this.url, { headers: this.headers })
+            .map(function (res) { return res.json(); });
     };
     ReceitaService = __decorate([
         core_1.Injectable(), 

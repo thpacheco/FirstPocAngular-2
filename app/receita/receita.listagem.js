@@ -15,20 +15,53 @@ var ReceitaListagem = (function () {
         this._receitaService = _receitaService;
         this.receitaModel = [];
         this.totalPagar = 0;
+        this.totalStatusPagar = 0;
+        this.qtdParcelas = [];
+        this.exibircontasParcela = true;
     }
     ReceitaListagem.prototype.ngOnInit = function () {
         this._listarReceitasDoMes();
+        this._carregarQtdParcelas();
+    };
+    ReceitaListagem.prototype._carregarQtdParcelas = function () {
+        for (var index = 1; index < 13; index++) {
+            this.qtdParcelas.push(index);
+        }
     };
     ReceitaListagem.prototype._listarReceitasDoMes = function () {
         var _this = this;
         this._receitaService.listar()
             .subscribe(function (contas) {
             _this.receitaModel = contas;
-            _this.totalContasMes = contas.length;
-            _this.receitaModel.forEach(function (item) {
+            contas.forEach(function (item) {
                 _this.totalPagar += item.valor;
             });
         });
+    };
+    ReceitaListagem.prototype._contaSelecionada = function (receita) {
+        receita.status = !receita.status;
+    };
+    ReceitaListagem.prototype._totalizarContas = function () {
+        var total = 0;
+        this.receitaModel.forEach(function (conta) {
+            if (conta.status) {
+                total += conta.valor;
+            }
+        });
+        return total;
+    };
+    ReceitaListagem.prototype._buscarAdicionarCorConta = function (status) {
+        var textClass;
+        if (status) {
+            textClass = 'bg-success';
+        }
+        else {
+            textClass = 'bg-danger';
+        }
+        return textClass;
+    };
+    ReceitaListagem.prototype._selecionarTipoConta = function (contaSelecionada) {
+        this.exibircontasParcela = contaSelecionada === "parcelada" ? false : true;
     };
     ReceitaListagem = __decorate([
         core_1.Component({

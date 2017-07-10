@@ -15,6 +15,49 @@
         </ol>
     </div>
 </div>
+<!-- Page Heading -->
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-1">
+                <!-- Botões de Opcoes -->
+                <button type="reset" id="btnRel" class="btn btn-lg btn-primary glyphicon glyphicon-plus" accesskey="r" data-toggle="modal"
+                    data-target="#ModalRel"><br><u>N</u>ovo</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Receita do Mês</h3>
+            </div>
+            <div class="panel-body">
+                <div class="panel-body">
+                    <form class="formReceita">
+                        <ul>
+                            <!-- Percorrer o array 'services', atribuir um manipulador click, e definir ou remover a classe css "active" se necessário -->
+                            <li *ngFor="let conta of receitaModel" (click)="_contaSelecionada(conta)" [ngClass]="{active:conta.status}">
+
+                                <!-- Note o uso do 'current filter', que vai formatar o preço -->
+                                {{ conta.nome }} <span>{{conta.valor | currency:'BRL':true:'1.2-2'}}</span>
+                            </li>
+                        </ul>
+
+                        <div class="total">
+                            <!-- Calcule o preço total de todas as escolhas de serviços. Formate isso como moeda -->
+                            Total: <span>{{ _totalizarContas() | currency:'BRL':true:'1.2-2'}}</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- /.row -->
 
 <div class="row">
@@ -26,7 +69,7 @@
             <div class="panel-body">
                 <div class="panel-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover table-striped">
+                        <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>Nome</th>
@@ -36,7 +79,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let conta of receitaModel">
+                                <tr *ngFor="let conta of receitaModel" [ngClass]="_buscarAdicionarCorConta(conta.status)">
                                     <td>{{conta.nome}}</td>
                                     <td>{{conta.valor | currency:'BRL':true:'1.2-2'}}</td>
                                     <td>{{conta.dataPagamento | date: 'dd/MM/yyyy'}}</td>
@@ -59,33 +102,63 @@
 </div>
 <!-- /.row -->
 
-<!-- /.row -->
-
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Receita do Mês</h3>
+<!-- Modal -->
+<div class="modal fade" id="ModalRel" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">Nova Conta</h4>
             </div>
-            <div class="panel-body">
-                <div class="panel-body">
-                    <form>
-                        <ul>
-                            <!-- Percorrer o array 'services', atribuir um manipulador click, e definir ou remover a classe css "active" se necessário -->
-                            <li *ngFor="let conta of receitaModel" (click)="toggleActive(conta)">
-
-                                <!-- Note o uso do 'current filter', que vai formatar o preço -->
-                                {{ conta.nome }} <span>{{conta.valor | currency:'BRL':true:'1.2-2'}}</span>
-                            </li>
-                        </ul>
-
-                        <div class="total">
-                            <!-- Calcule o preço total de todas as escolhas de serviços. Formate isso como moeda -->
-                            Total: <span>{{totalPagar | currency:'BRL':true:'1.2-2'}}</span>
+            <div class="modal-body" style="/*padding-top: 0px;*/">
+                <form>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Nome</label>
+                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Nome">
+                            </div>
                         </div>
-                    </form>
-                </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Valor</label>
+                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Valor">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Data Pagamento</label>
+                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Data Pagamento">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label>Tipo de Conta</label>
+                                    <select class="form-control" #valor (change)="_selecionarTipoConta(valor.value)">
+                                    <option value="">Selecione...</option>
+                                    <option value="fixa">Fixa</option>
+                                    <option value="mes">Pra esse mês</option>
+                                    <option value="parcelada">Parcelada</option>
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" [hidden]="exibircontasParcela">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label>Qtd Parcelas</label>
+                                    <select class="form-control">
+                                    <option value="0">Selecione...</option>
+                                    <option *ngFor="let parcelas of qtdParcelas" [value]="parcelas">{{parcelas}}  X </option>
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+<!-- /.modal -->
